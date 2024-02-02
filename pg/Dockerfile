@@ -2,13 +2,12 @@ ARG PG_MAJOR=16
 FROM postgres:$PG_MAJOR
 ARG PG_MAJOR
 
-# China users can use the following commands to speed up the build process
-# RUN sed -i 's/apt.postgresql.org\/pub/mirrors.tuna.tsinghua.edu.cn\/postgresql/g' /etc/apt/sources.list.d/pgdg.list
-# RUN sed -i 's/deb.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
-# RUN sed -i 's/security.debian.org/mirrors.aliyun.com/g' /etc/apt/sources.list
-
 SHELL ["/bin/bash", "-c"]
+
 RUN set -o pipefail && \
+    sed -i 's#apt.postgresql.org/pub#mirrors.tuna.tsinghua.edu.cn/postgresql#g' /etc/apt/sources.list.d/pgdg.list && \
+    sed -i 's#deb.debian.org/debian#mirrors.tuna.tsinghua.edu.cn/debian#g' /etc/apt/sources.list.d/debian.sources && \
+    sed -i 's#deb.debian.org/debian-security#mirrors.aliyun.com/debian-security#g' /etc/apt/sources.list.d/debian.sources && \
     apt-get update && \
     apt-mark hold locales && \
     apt-get -y install --no-install-recommends apt-transport-https build-essential postgresql-server-dev-$PG_MAJOR wget git && \
