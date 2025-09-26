@@ -1,0 +1,15 @@
+services:
+  postgres:
+    restart: unless-stopped
+    container_name: postgres
+    image: pg18_vector:latest
+    volumes:
+      - "./pg_data:/var/lib/postgresql/18/docker"
+    environment:
+      - DEBUG=false
+      - POSTGRES_PASSWORD=xzsDwlk3LqaY
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DEFAULT_TEXT_SEARCH_CONFIG=simple_zh_cfg
+    # ports:
+      # - 5432:5432
+    network_mode: host

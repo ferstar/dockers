@@ -1,5 +1,5 @@
-ARG PG_MAJOR=16
-FROM postgres:$PG_MAJOR
+ARG PG_MAJOR=18
+FROM postgres:18beta1-bookworm
 ARG PG_MAJOR
 
 SHELL ["/bin/bash", "-c"]
@@ -12,12 +12,12 @@ RUN set -o pipefail && \
     apt-mark hold locales && \
     apt-get -y install --no-install-recommends apt-transport-https build-essential postgresql-server-dev-$PG_MAJOR wget git && \
     cd /tmp && \
-    wget http://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 -O scws-1.2.3.tar.bz2 && \
+    wget --no-check-certificate https://www.xunsearch.com/scws/down/scws-1.2.3.tar.bz2 -O scws-1.2.3.tar.bz2 && \
     tar xvjf scws-1.2.3.tar.bz2 && \
     cd scws-1.2.3 && ./configure --prefix=/usr/local/scws && make install && cd .. && \
-    wget http://www.xunsearch.com/scws/down/scws-dict-chs-gbk.tar.bz2 && \
+    wget --no-check-certificate https://www.xunsearch.com/scws/down/scws-dict-chs-gbk.tar.bz2 && \
     tar xvjf scws-dict-chs-gbk.tar.bz2 && \
-    wget http://www.xunsearch.com/scws/down/scws-dict-chs-utf8.tar.bz2 && \
+    wget --no-check-certificate https://www.xunsearch.com/scws/down/scws-dict-chs-utf8.tar.bz2 && \
     tar xvjf scws-dict-chs-utf8.tar.bz2 && \
     mv *.xdb /usr/local/scws/etc/ && \
     git config --global http.sslverify false && \
